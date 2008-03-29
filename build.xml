@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Misri Calendar" default="clean" basedir=".">
+    <!-- Load up local properties, user specific properties -->
+    <property file="${basedir}/local.properties"/>
+    
+    <!-- Load up default properties -->
+    <property file="${basedir}/build.properties"/>
+    
+    <!-- Clean the temorary & build directories-->
+    <target name="clean">
+        <delete dir="${classesDir}"/>
+    </target>
+    
+    <!-- Compile & execute our tests. -->
+    <target name="test" depends="compile">
+    </target>
+    
+    <!-- Compile our classes -->
+    <target name="compile">
+    </target>
+</project>
