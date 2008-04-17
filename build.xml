@@ -2,21 +2,48 @@
 
 <project name="Misri Calendar" default="clean" basedir=".">
     <!-- Load up local properties, user specific properties -->
-    <property file="${basedir}/local.properties"/>
-    
+    <property file="${basedir}/local.properties" />
     <!-- Load up default properties -->
-    <property file="${basedir}/build.properties"/>
-    
+    <property file="${basedir}/build.properties" />
+
+    <!-- Setup the classpaths -->
+    <path id="pmd.classpath">
+        <fileset dir="${libDir}/pmd/">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <!-- Custom task definitions: -->
+    <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath" />
+
+    <!-- Initialization -->
+    <target name="init">
+        <!-- Make the default output directories -->
+        <mkdir dir="${distDir}" />
+        <mkdir dir="${distLibDir}" />
+        <mkdir dir="${reportsDir}" />
+    </target>
     <!-- Clean the temorary & build directories-->
     <target name="clean">
-        <delete dir="${classesDir}"/>
+        <delete dir="${classesDir}" />
     </target>
-    
+
     <!-- Compile & execute our tests. -->
-    <target name="test" depends="compile">
+    <target name="test" depends="init, compile">
     </target>
-    
+
     <!-- Compile our classes -->
-    <target name="compile">
+    <target name="compile" depends="init">
+    </target>
+
+    <!-- Check coding convnetion plus basic level of automated code review ;) -->
+    <target name="check-style" depends="init">
+        <pmd rulesetfiles="basic">
+            <formatter type="xml" tofile="${reportsDir}/pmdreport.xml" />
+            <fileset dir="${src.java}">
+                <include name="**/*.java" />
+            </fileset>
+        </pmd>
+        <xslt in="${reportsDir}/pmdreport.xml" style="${env.dir}/wz-pmd-report.xslt" out="${reportsDir}/pmdreport.html" />
     </target>
 </project>
