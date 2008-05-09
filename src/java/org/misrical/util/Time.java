@@ -1,9 +1,9 @@
-/**
- * 
- */
 package org.misrical.util;
 
 /**
+ * Util class to represent Time. Needed a lightweight class to 
+ * keep time. The java.util.Clanedar was a bit overkill.
+ * 
  * @author mustafa
  * 
  */

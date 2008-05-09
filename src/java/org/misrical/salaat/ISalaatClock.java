@@ -1,4 +1,4 @@
-package org.misrical.salat;
+package org.misrical.salaat;
 
 import org.misrical.util.Time;
 
