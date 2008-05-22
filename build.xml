@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="Misri Calendar" default="clean" basedir=".">
+    
     <!-- Load up local properties, user specific properties -->
     <property file="${basedir}/local.properties" />
+    
     <!-- Load up default properties -->
     <property file="${basedir}/build.properties" />
 
@@ -11,6 +13,26 @@
         <fileset dir="${libDir}/pmd/">
             <include name="*.jar" />
         </fileset>
+    </path>
+
+    <path id="testng.classpath">
+        <fileset dir="${libDir}/testng/">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+    
+    <patternset id="app.sources">
+        <include name="${src.java}/**/*.java"/>
+    </patternset>
+    
+    <path id="test.classpath">
+        <path refid="testng.classpath" />
+        <path refid="app.sources" />
+        <fileset dir="${src.test}" includes="**/*.java" />
+    </path>
+    
+    <path id="compile.classpath">
+        <fileset dir="${libDir}" includes="**/*.jar"/>
     </path>
 
     <!-- Custom task definitions: -->
@@ -22,7 +44,9 @@
         <mkdir dir="${distDir}" />
         <mkdir dir="${distLibDir}" />
         <mkdir dir="${reportsDir}" />
+        <mkdir dir="${classesDir}" />
     </target>
+    
     <!-- Clean the temorary & build directories-->
     <target name="clean">
         <delete dir="${classesDir}" />
@@ -30,10 +54,16 @@
 
     <!-- Compile & execute our tests. -->
     <target name="test" depends="init, compile">
+        <javac srcdir="${src.test}" destdir="${classesDir}"
+            classpathref="test.classpath"
+        />
     </target>
 
     <!-- Compile our classes -->
     <target name="compile" depends="init">
+        <javac srcdir="${src.java}" destdir="${classesDir}"
+            classpathref="compile.classpath"
+        />
     </target>
 
     <!-- Check coding convnetion plus basic level of automated code review ;) -->
