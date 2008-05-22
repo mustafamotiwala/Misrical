@@ -21,13 +21,9 @@
         </fileset>
     </path>
     
-    <patternset id="app.sources">
-        <include name="${src.java}/**/*.java"/>
-    </patternset>
-    
     <path id="test.classpath">
         <path refid="testng.classpath" />
-        <path refid="app.sources" />
+        <fileset dir="${src.java}" includes="**/*.java" />
         <fileset dir="${src.test}" includes="**/*.java" />
     </path>
     
@@ -49,7 +45,8 @@
     
     <!-- Clean the temorary & build directories-->
     <target name="clean">
-        <delete dir="${classesDir}" />
+        <delete dir="${distDir}" />
+        <delete dir="${reportsDir}" />
     </target>
 
     <!-- Compile & execute our tests. -->
