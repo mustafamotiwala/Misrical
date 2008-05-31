@@ -21,10 +21,15 @@
         </fileset>
     </path>
     
-    <path id="test.classpath">
+    <path id="test.compile.classpath">
         <path refid="testng.classpath" />
-        <fileset dir="${src.java}" includes="**/*.java" />
-        <fileset dir="${src.test}" includes="**/*.java" />
+        <pathelement location="${src.java}" />
+        <pathelement location="${src.test}" />
+    </path>
+    
+    <path id="test.run.classpath">
+        <path refid="testng.classpath" />
+        <pathelement location="${classesDir}" />
     </path>
     
     <path id="compile.classpath">
@@ -33,6 +38,7 @@
 
     <!-- Custom task definitions: -->
     <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath" />
+	<taskdef resource="testngtasks" classpathref="testng.classpath"/>
 
     <!-- Initialization -->
     <target name="init">
@@ -52,8 +58,11 @@
     <!-- Compile & execute our tests. -->
     <target name="test" depends="init, compile">
         <javac srcdir="${src.test}" destdir="${classesDir}"
-            classpathref="test.classpath"
+            classpathref="test.compile.classpath"
         />
+    	<testng outputDir="${testngReports}" classpathref="test.run.classpath">
+    		<xmlfileset file="${projectDir}/env/testng.xml" />
+    	</testng>
     </target>
 
     <!-- Compile our classes -->

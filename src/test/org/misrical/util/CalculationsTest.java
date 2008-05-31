@@ -19,12 +19,16 @@ public class CalculationsTest {
    * Tests whether the JulianDay value returned from the Calculations
    * class returns valid results.
    */
-  @Test(groups={"comprehensive"})
+  @Test(groups={"unit, functional"})
   public void toJulianValue(){
     int JULIANCONST = 2451545;
     Calendar cal = Calendar.getInstance();
     cal.set(2000, 0, 1);
     double julianDay = Calculations.toJulianValue(cal);
     Assert.assertEquals(julianDay, JULIANCONST);
+  }
+  
+  @Test(groups={"functional"})
+  public void julianForYear(){    
   }
 }

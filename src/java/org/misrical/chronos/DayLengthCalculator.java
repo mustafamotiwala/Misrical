@@ -3,7 +3,7 @@
  * a given day. Takes a Calendar object as input. Calendar is not
  * as heavy as its projected to be.
  */
-package org.misrical.solar;
+package org.misrical.chronos;
 
 import java.util.Calendar;
 
