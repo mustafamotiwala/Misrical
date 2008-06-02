@@ -16,6 +16,21 @@ public class DayLengthCalculator {
   private Calendar gregorianDate;
   
   public DayLengthCalculator(){
+  }
+  
+  public DayLength getLengthOfDay(Calendar cal){
+    DayLength returnVal = new DayLength();
+    gregorianDate = createDefensiveCopy(cal);
+    return returnVal;
+  }
+  
+  /**
+   * This method creates a safe copy of the passed in Calendar object.
+   * @param cal
+   */
+  private Calendar createDefensiveCopy(Calendar cal){
     gregorianDate = Calendar.getInstance();
+    gregorianDate.setTimeInMillis(cal.getTimeInMillis());
+    return gregorianDate;
   }
 }
