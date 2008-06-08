@@ -7,20 +7,34 @@ package org.misrical.chronos;
 
 import java.util.Calendar;
 
+import org.misrical.util.Calculations;
+
 /**
  * @author mustafa
  *
  */
 public class DayLengthCalculator {
-  private double julianDay;
-  private Calendar gregorianDate;
   
   public DayLengthCalculator(){
   }
   
+  /**
+   * Calculates the length of a given day. Uses the Calendar object to pass in
+   * the target date. The hour, if not specified in the Calendar object, will default
+   * to 12.00 NOON. Reason being, we need to convert the dates between Julian & Gregorian
+   * and hour of the day impacts the generated Julian Day.
+   * Ref:
+   *     http://users.electromagnetic.net/bu/astro/sunrise-set.php
+   * @param cal
+   * @return
+   */
   public DayLength getLengthOfDay(Calendar cal){
     DayLength returnVal = new DayLength();
-    gregorianDate = createDefensiveCopy(cal);
+    double julianDay;
+    Calendar gregorianDate = createDefensiveCopy(cal);
+    julianDay = Calculations.toJulianValue(gregorianDate);
+//    TODO Implement the getLengthOfDay function.
+    returnVal.setSunrise(julianDay);
     return returnVal;
   }
   
@@ -29,8 +43,8 @@ public class DayLengthCalculator {
    * @param cal
    */
   private Calendar createDefensiveCopy(Calendar cal){
-    gregorianDate = Calendar.getInstance();
-    gregorianDate.setTimeInMillis(cal.getTimeInMillis());
-    return gregorianDate;
+    Calendar returnVal = Calendar.getInstance();
+    returnVal.setTimeInMillis(cal.getTimeInMillis());
+    return returnVal;
   }
 }

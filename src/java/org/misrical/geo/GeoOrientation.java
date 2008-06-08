@@ -14,7 +14,7 @@ public enum GeoOrientation {
   
   private int orientation;
   
-  GeoOrientation(int orientation){
+  private GeoOrientation(int orientation){
     this.orientation = orientation;
   }
   
