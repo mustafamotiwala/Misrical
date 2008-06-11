@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rulset name="PMD Ruleset for MisriCal."
+  xmlns="http://pmd.sf.net/ruleset/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+  xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+  <description>
+    This is a custom rule-set for MisriCal projects and its sub-projects.
+  </description>
+
+  <rule ref="rulesets/basic.xml" />
+  <!-- Get everything from Codesize, we will then modify the sub-rules separately. -->
+  <rule ref="rulesets/codesize.xml" />
+
+  <rule ref="rulesets/codesize.xml/ExcessiveMethodLength">
+    <properties>
+      <property name="minimum" value="75" />
+    </properties>
+  </rule>
+
+  <rule ref="rulesets/codesize.xml/ExcessiveParameterList">
+    <properties>
+      <property name="minimum" value="5" />
+    </properties>
+  </rule>
+
+  <rule ref="rulesets/imports.xml" />
+</rulset>

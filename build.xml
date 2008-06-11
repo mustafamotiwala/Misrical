@@ -74,7 +74,7 @@
 
     <!-- Check coding convnetion plus basic level of automated code review ;) -->
     <target name="check-style" depends="init">
-        <pmd rulesetfiles="basic">
+        <pmd rulesetfiles="${env.dir}/pmd_ruleset.xml">
             <formatter type="xml" tofile="${reportsDir}/pmdreport.xml" />
             <fileset dir="${src.java}">
                 <include name="**/*.java" />
