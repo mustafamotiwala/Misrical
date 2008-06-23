@@ -7,7 +7,10 @@ package org.misrical.chronos;
 
 import java.util.Calendar;
 
+import org.misrical.geo.IGeoLocation;
 import org.misrical.util.Calculations;
+
+import static java.lang.Math.round;
 
 /**
  * @author mustafa
@@ -15,6 +18,8 @@ import org.misrical.util.Calculations;
  */
 public class DayLengthCalculator {
   
+  private final long JAN012000 =2451545L;
+  private final double CYCLE_CONST=0.0009;
   public DayLengthCalculator(){
   }
   
@@ -28,11 +33,14 @@ public class DayLengthCalculator {
    * @param cal
    * @return
    */
-  public DayLength getLengthOfDay(Calendar cal){
+  public DayLength getLengthOfDay(Calendar cal, IGeoLocation location){
     DayLength returnVal = new DayLength();
     double julianDay;
     Calendar gregorianDate = createDefensiveCopy(cal);
     julianDay = Calculations.toJulianValue(gregorianDate);
+    long julianCycle = round((julianDay - JAN012000 - CYCLE_CONST) - (location.getLongitude().getDegrees()/360));
+    double approxSolarNoon = JAN012000 + CYCLE_CONST + location.getLongitude().getDegrees()/360 + julianCycle;
+//    double meanSolarAnamoly
 //    TODO Implement the getLengthOfDay function.
     returnVal.setSunrise(julianDay);
     return returnVal;
