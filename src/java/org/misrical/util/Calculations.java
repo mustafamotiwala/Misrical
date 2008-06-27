@@ -36,7 +36,44 @@ public class Calculations {
     returnVal = floor(1461 * (year + 4716)/4) + floor(153 * (month + 1)/5) + day + equation1 - 1524.5;
     return returnVal;
   }
-
+  
+  /**
+   * Returns the Gregorian date for a given Julian date. 
+   * 
+   * @param julianDay - the double value representing a Julian day.
+   * @return Returns the Calendar object representing the Gregorian date.
+   * 
+   * The details of the algorithm are as follows:
+   * 
+   * day   = eq8 + julianDay - eq1 + 0.5
+   * time = (day % 1) * 24
+   * hourOfDay = floor(time)
+   * minuteOfHour = (time % 1) * 60
+   * ref:
+   *    http://www.astro.uu.nl/~strous/AA/en/reken/juliaansedag.html
+   */
+  public static Calendar toGregorianDate(double julianDay){
+    Calendar returnVal = Calendar.getInstance();
+    Double     eq1 = floor(julianDay + 0.5);
+    Double     eq2 = eq1 + 68569;
+    Double     eq3 = floor( 4 * eq2 / 146097);
+    Double     eq4 = eq2 - floor( (146097 * eq3 + 3 )/4 );
+    Double     eq5 = floor( 4000 * (eq4 + 1) / 1461001 );
+    Double     eq6 = eq4 - floor(1461 * eq5/4) + 31;
+    Double     eq7 = floor(80 * eq6 / 2447);
+    Double     eq8 = eq6 - floor(2447 * eq7/80);
+    Double     eq9 = floor( eq7 / 11 );
+    int year       = (int)(100 * (eq3 - 49) + eq5 + eq9);
+    int month      = (int) (eq7 + 2 -12 * eq9);
+    Double dayTime = eq8 + julianDay - eq1 + 0.5;
+    double time    = dayTime % 1 * 24;
+    int       day  = dayTime.intValue(); //Should never go above 31 anyway
+    int  hourOfDay = (int) floor(time);
+    int     minute = (int) ((time % 1) * 60);
+    returnVal.clear();
+    returnVal.set(year, month-1, day, hourOfDay, minute);
+    return returnVal;
+  }
 //  Helper function if we don't want to use the "import static" keyword.
 //  private static double floor(double d){
 //    return Math.floor(d);
