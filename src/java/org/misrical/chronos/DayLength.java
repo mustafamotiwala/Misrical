@@ -9,16 +9,11 @@ public class DayLength {
   private double sunset;
   
   /**
-   * Default constructor. Comes in handy.
-   */
-  public DayLength(){  }
-  
-  /**
    * Helper constructor to quickly create the DayLength object
    * with the surnise and sunset values.
    * 
-   * @param rise - set the sunrise value. Accepts the hour values in 24 hour format.
-   * @param set - set the sunset value. Values are expected to be in 24 Hr. format.
+   * @param rise - set the sunrise value. 
+   * @param set - set the sunset value. 
    */
   public DayLength(double rise, double set){
     if(rise>set)
@@ -35,12 +30,12 @@ public class DayLength {
     return sunset;
   }
   
-  public void setSunrise(double rise){
-    sunrise = rise;
-  }
-  
-  public void setSunset(double set){
-    sunset = set;
-  }
+//  public void setSunrise(double rise){
+//    sunrise = rise;
+//  }
+//  
+//  public void setSunset(double set){
+//    sunset = set;
+//  }
   
 }

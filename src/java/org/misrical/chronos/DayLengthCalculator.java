@@ -7,10 +7,13 @@ package org.misrical.chronos;
 
 import java.util.Calendar;
 
+import org.misrical.geo.GeoOrientation;
 import org.misrical.geo.IGeoLocation;
 import org.misrical.util.Calculations;
 
 import static java.lang.Math.round;
+import static java.lang.Math.sin;
+import static java.lang.Math.cos;
 
 /**
  * @author mustafa
@@ -34,16 +37,29 @@ public class DayLengthCalculator {
    * @return
    */
   public DayLength getLengthOfDay(Calendar cal, IGeoLocation location){
-    DayLength returnVal = new DayLength();
-    double julianDay;
+    double latitudeNorth = location.getLatitude().getDegrees();
+    double longitudeWest = location.getLatitude().getDegrees();
+
+    latitudeNorth = location.getLatitude().getOrientation()==GeoOrientation.NORTH?latitudeNorth:latitudeNorth*-1; //for degrees to the south, inverse sign.
+    longitudeWest = location.getLongitude().getOrientation()==GeoOrientation.WEST?longitudeWest:longitudeWest*-1; //for degrees to the east, inverse sign.
+    
     Calendar gregorianDate = createDefensiveCopy(cal);
-    julianDay = Calculations.toJulianValue(gregorianDate);
+    double julianDay = Calculations.toJulianValue(gregorianDate);
     long julianCycle = round((julianDay - JAN012000 - CYCLE_CONST) - (location.getLongitude().getDegrees()/360));
     double approxSolarNoon = JAN012000 + CYCLE_CONST + location.getLongitude().getDegrees()/360 + julianCycle;
-//    double meanSolarAnamoly
-//    TODO Implement the getLengthOfDay function.
-    returnVal.setSunrise(julianDay);
-    return returnVal;
+    double meanSolarAnamoly = (357.5291 + 0.98560028 * (approxSolarNoon - JAN012000) ) % 360;
+    double equationOfCenter = (1.9148 * sin(meanSolarAnamoly)) + (0.0200 * sin(2*meanSolarAnamoly)) + (0.0003 * sin(3*meanSolarAnamoly));
+    double longitudeOfSun = (meanSolarAnamoly + 102.9372 + equationOfCenter + 180) % 360;
+    double julianSolarNoon = approxSolarNoon + (0.0053 * sin(meanSolarAnamoly)) - (0.0069 * sin(2*longitudeOfSun));
+    double sunDeclination = Math.asin(sin(longitudeOfSun) * sin(23.45));
+    double hourAngle = Math.acos((sin(-0.83) - sin(location.getLatitude().getDegrees()) * sin(sunDeclination)) / (cos(location.getLatitude().getDegrees()) * cos(sunDeclination)));
+    approxSolarNoon = JAN012000 + CYCLE_CONST + ((hourAngle + location.getLongitude().getDegrees())/360) + julianCycle;
+    double julianSunSet = approxSolarNoon + (0.0053 * sin(meanSolarAnamoly)) - (0.0069 * sin(2 * longitudeOfSun));
+    double julianRise = julianSolarNoon - (julianSunSet - julianSolarNoon);
+    
+    assert julianSunSet > julianRise: "The sunset value for " + julianDay + " is higher than the sunrise value";
+    
+    return new DayLength(julianRise, julianSunSet);
   }
   
   /**

@@ -14,12 +14,12 @@ public interface IGeoLocation {
    * Returns the Latitude for this named location.
    * @return
    */
-  public LatitudePosition getLatitude();
+  public Position getLatitude();
   /**
    * Returns the Longitude for this named position.
    * @return
    */
-  public LongitudePosition getLongitude();
+  public Position getLongitude();
   /**
    * Returns the name for this location.
    * @return
