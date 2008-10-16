@@ -29,13 +29,4 @@ public class DayLength {
   public double getSunset(){
     return sunset;
   }
-  
-//  public void setSunrise(double rise){
-//    sunrise = rise;
-//  }
-//  
-//  public void setSunset(double set){
-//    sunset = set;
-//  }
-  
 }
