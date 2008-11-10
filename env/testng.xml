@@ -4,26 +4,26 @@
 
 <suite name="MisriCal Test Suite" verbose="1" prallel="true" thread-count="10">
   <test name="Functional">
-  <classes>
-    <class name="org.misrical.salaat.SalaatCalculatorTest" />
-    <class name="org.misrical.util.CalculationsTest" />
-  </classes>
     <groups>
       <run>
         <include name="unit" />
         <include name="functional" />
       </run>
     </groups>
+    <classes>
+      <class name="org.misrical.salaat.SalaatCalculatorTest" />
+      <class name="org.misrical.util.CalculationsTest" />
+    </classes>
   </test>
   <!-- We don't have anything for integration testing yet. -->
   <!--
-  <test name="Integration">
+    <test name="Integration">
     <groups>
-      <run>
-        <include name="functional" />
-        <include name="integration" />
-      </run>
+    <run>
+    <include name="functional" />
+    <include name="integration" />
+    </run>
     </groups>
-  </test>
+    </test>
   -->
 </suite>
