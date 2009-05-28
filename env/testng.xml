@@ -13,6 +13,7 @@
     <classes>
       <class name="org.misrical.salaat.SalaatCalculatorTest" />
       <class name="org.misrical.util.CalculationsTest" />
+      <class name="org.misrical.util.TimeTest" />
     </classes>
   </test>
   <!-- We don't have anything for integration testing yet. -->

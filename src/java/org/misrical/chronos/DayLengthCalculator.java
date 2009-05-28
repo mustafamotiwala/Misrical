@@ -1,8 +1,3 @@
-/**
- * This class calculates the length of day in hours/minutes for
- * a given day. Takes a Calendar object as input. Calendar is not
- * as heavy as its projected to be.
- */
 package org.misrical.chronos;
 
 import java.util.Calendar;
@@ -16,6 +11,9 @@ import static java.lang.Math.sin;
 import static java.lang.Math.cos;
 
 /**
+ * This class calculates the length of day in hours/minutes for
+ * a given day. Takes a Calendar object as input. 
+ * 
  * @author mustafa
  *
  */
@@ -43,7 +41,7 @@ public class DayLengthCalculator {
     latitudeNorth = location.getLatitude().getOrientation()==GeoOrientation.NORTH?latitudeNorth:latitudeNorth*-1; //for degrees to the south, inverse sign.
     longitudeWest = location.getLongitude().getOrientation()==GeoOrientation.WEST?longitudeWest:longitudeWest*-1; //for degrees to the east, inverse sign.
     
-    Calendar gregorianDate = createDefensiveCopy(cal);
+    Calendar gregorianDate = makeDefensiveCopy(cal);
     double julianDay = Calculations.toJulianValue(gregorianDate);
     long julianCycle = round((julianDay - JAN012000 - CYCLE_CONST) - (location.getLongitude().getDegrees()/360));
     double approxSolarNoon = JAN012000 + CYCLE_CONST + location.getLongitude().getDegrees()/360 + julianCycle;
@@ -66,7 +64,7 @@ public class DayLengthCalculator {
    * This method creates a safe copy of the passed in Calendar object.
    * @param cal
    */
-  private Calendar createDefensiveCopy(Calendar cal){
+  private Calendar makeDefensiveCopy(Calendar cal){
     Calendar returnVal = Calendar.getInstance();
     returnVal.setTimeInMillis(cal.getTimeInMillis());
     return returnVal;

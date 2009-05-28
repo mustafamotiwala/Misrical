@@ -12,11 +12,24 @@ public class Time {
 
   private static final int HOUR_CONSTANT     = 12;
   private static final int HOURS_IN_DAY      = 24;
-  private static final int MINUTES_IN_HOUR   = 60;
-  private static final int SECONDS_IN_MINUTE = 60;
+  private static final int MINUTES_IN_HOUR   = 59;
+  private static final int SECONDS_IN_MINUTE = 59;
 
+  /**
+   * Builds the Hour & Minute components (Seconds component defaults to 0) from the given
+   * value. e.g.
+   * @param timeOfDay
+   */
+  public Time(double timeOfDay){
+    if(timeOfDay < 0 || timeOfDay > 23.9){
+      throw new IllegalArgumentException("Invalid timeOfDay value supplied. (" + timeOfDay +")");
+    }
+    hour = (int)Math.floor(timeOfDay);
+    minute = (int)(timeOfDay % hour) * 60;
+    seconds = 0;
+  }
   public Time(int hr, int mm, int ss) {
-    if (hr > HOURS_IN_DAY || mm > MINUTES_IN_HOUR || ss > SECONDS_IN_MINUTE) {
+    if (hr > HOURS_IN_DAY || mm > MINUTES_IN_HOUR || ss > SECONDS_IN_MINUTE || (hr<0 || mm<0 || ss<0)) {
       throw new IllegalArgumentException("Invalid arguments supplied for time");
     }
     hour = hr;
@@ -43,4 +56,17 @@ public class Time {
       return hr;
     }
   }
+  
+  public static Time convertFromDouble(double time){
+    Time returnVal = new Time(0,0,0);
+    return returnVal;
+  }
+  /**
+   *
+   */
+  @Override
+  public String toString() {
+    return hour + ":" + minute + ":" + seconds;
+  }
+  
 }

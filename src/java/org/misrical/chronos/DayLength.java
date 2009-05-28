@@ -29,4 +29,8 @@ public class DayLength {
   public double getSunset(){
     return sunset;
   }
+  
+  public double length(){
+    return sunset - sunrise;
+  }
 }
