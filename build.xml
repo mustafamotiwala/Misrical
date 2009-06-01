@@ -64,11 +64,25 @@
     		<xmlfileset file="${projectDir}/env/testng.xml" />
     	</testng>
     </target>
+    <!-- Compile and execute our tests in debug mode. -->
+    <target name="test-debug" depends="init, compile">
+        <javac srcdir="${src.test}" destdir="${classesDir}"
+            classpathref="test.compile.classpath" 
+            debug="true" 
+            debuglevel="lines,vars,source"
+        />
+        <testng outputDir="${testngReports}" classpathref="test.run.classpath">
+            <xmlfileset file="${projectDir}/env/testng.xml" />
+            <jvmarg value="-agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:21000,server=y"/>
+        </testng>
+    </target>
 
     <!-- Compile our classes -->
     <target name="compile" depends="init">
         <javac srcdir="${src.java}" destdir="${classesDir}"
             classpathref="compile.classpath"
+            debug="true"
+            debuglevel="lines,vars,source"
         />
     </target>
 

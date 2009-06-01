@@ -23,12 +23,13 @@ public class TimeTest {
     //This list contains a container list, where the Hour element of an instance of the
     //sublist would be the same and would have 59 Time objects within, each object for
     //each minute of every hour of the day.
-    List<List<Time>> hours=new ArrayList<List<Time>>();
+    List<List<Time>> hours=new ArrayList<List<Time>>(60);
     //Start from 0 Hours and 0 Minutes
     for(int x=0; x< 24; x++){
-      List<Time> minutes=new ArrayList<Time>();
-      for(int y=0,m=0;y<60;y++){
-        m*=0.016; // Keep adding a minute; 1 Minute represented as a double value equals: 1.66E
+      List<Time> minutes=new ArrayList<Time>(60);
+      for(int y=0;y<60;y++){
+//        double m=y * 0.016666666666666666; // Keep adding a minute; 1 Minute represented as a double value equals: 1.66E
+        double m=y * 0.01667;
         double timeValue = x + m; 
         Time testObject = new Time(timeValue);
         minutes.add(testObject);
