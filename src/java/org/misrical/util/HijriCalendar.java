@@ -1,7 +1,6 @@
 package org.misrical.util;
 
 /**
- * TODO: Implement this class as the HijriCalendar.
  * This class will keep track of the HijriDate and the corresponding GregorianDate. This will be a
  * value class, but might expose conversion methods for conversion of days between the Hijri & Gregorian
  * Calendar.

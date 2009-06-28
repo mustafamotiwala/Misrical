@@ -27,7 +27,7 @@ public class DefaultSalaatCalculator implements ISalaatCalculator {
     double sunRise = lengthDay.getSunrise();
     double sunSet = lengthDay.getSunset();
     double length = lengthDay.length();
-    // TODO Auto-generated method stub
+    // TODO: Finish implementing the calculation for salaat times.
     return null;
   }
 
@@ -36,7 +36,7 @@ public class DefaultSalaatCalculator implements ISalaatCalculator {
    */
   @Override
   public Map<Integer, ISalaatClock> getSalatTimesForMonth(SalaatCalculationRequest request) {
-    // TODO Auto-generated method stub
+    // TODO Implement the method.
     return null;
   }
 }

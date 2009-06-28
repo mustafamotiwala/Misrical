@@ -12,8 +12,6 @@ import org.misrical.geo.IGeoLocation;
  * calculate precise salaat timings, apart from the latitude/longitude, we also need to have the height above sea level, as that is detrimental
  * to actual versus civil twilight & dusk.
  * 
- * TODO: Need to define a "Location" interface which can be used to query the location information. This will only be used by the
- * "DefaultSalaatCalculator" but exposing it allows for extension.
  * 
  * @author mustafa
  *
