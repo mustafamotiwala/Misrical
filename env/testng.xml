@@ -2,7 +2,7 @@
 
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="MisriCal Test Suite" verbose="1" prallel="true" thread-count="10">
+<suite name="MisriCal Test Suite" verbose="1" parallel="tests" thread-count="10">
   <test name="Functional">
     <groups>
       <run>
