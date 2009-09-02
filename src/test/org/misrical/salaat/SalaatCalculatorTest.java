@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.misrical.salaat;
 
 
@@ -9,4 +6,5 @@ package org.misrical.salaat;
  *
  */
 public class SalaatCalculatorTest {
+    ISalaatCalculator testTarget;
 }

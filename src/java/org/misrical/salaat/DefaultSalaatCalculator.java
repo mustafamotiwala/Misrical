@@ -24,11 +24,19 @@ public class DefaultSalaatCalculator implements ISalaatCalculator {
   public ISalaatClock getSalatTime(Calendar date, IGeoLocation location) {
     DayLengthCalculator calculator =  new DayLengthCalculator();
     DayLength lengthDay = calculator.getLengthOfDay(date, location);
+    SalaatClock returnVal = new SalaatClock();
+    // TODO: Calculate sihori End time and Fajr start time.
     double sunRise = lengthDay.getSunrise();
+    returnVal.endFajr = Time.buildFromDoubleValue(sunRise);
     double sunSet = lengthDay.getSunset();
+    returnVal.maghrib = Time.buildFromDoubleValue(sunSet);
     double length = lengthDay.length();
-    // TODO: Finish implementing the calculation for salaat times.
-    return null;
+    double zawwal = (length/2D) + sunRise; //Midday = zawwal.
+    returnVal.zawwal = Time.buildFromDoubleValue(zawwal);
+    double ghariLength = length/12; //Calculate the length of a day 'ghari' which is total daylength divided into twelve parts.
+    returnVal.endZuhr = Time.buildFromDoubleValue(zawwal + (ghariLength * 2)); //Zuhr is for two gharis.
+    returnVal.endAsr = Time.buildFromDoubleValue(zawwal + (ghariLength * 4)); //Asr lasts two gharis after zuhr ends
+    return returnVal;
   }
 
   /* (non-Javadoc)
@@ -36,6 +44,7 @@ public class DefaultSalaatCalculator implements ISalaatCalculator {
    */
   @Override
   public Map<Integer, ISalaatClock> getSalatTimesForMonth(SalaatCalculationRequest request) {
+      request.getMonth();
     // TODO Implement the method.
     return null;
   }

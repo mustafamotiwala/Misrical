@@ -31,7 +31,7 @@ public class TimeTest {
 //        double m=y * 0.016666666666666666; // Keep adding a minute; 1 Minute represented as a double value equals: 1.66E
         double m=y * 0.01667;
         double timeValue = x + m; 
-        Time testObject = new Time(timeValue);
+        Time testObject = Time.buildFromDoubleValue(timeValue);
         minutes.add(testObject);
       }
       hours.add(minutes);
