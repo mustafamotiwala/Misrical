@@ -6,7 +6,6 @@ import java.util.Map;
 import org.misrical.chronos.DayLength;
 import org.misrical.chronos.DayLengthCalculator;
 import org.misrical.geo.IGeoLocation;
-import org.misrical.util.Calculations;
 import org.misrical.util.Time;
 
 /**
