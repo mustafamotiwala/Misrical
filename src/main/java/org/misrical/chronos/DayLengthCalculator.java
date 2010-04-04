@@ -2,8 +2,11 @@ package org.misrical.chronos;
 
 import java.util.Calendar;
 
-import static java.lang.Math.*;
+import static java.lang.Math.cos;
+import static java.lang.Math.round;
+import static java.lang.Math.sin;
 
+import org.misrical.geo.GeoOrientation;
 import org.misrical.geo.IGeoLocation;
 import org.misrical.util.Calculations;
 
@@ -24,7 +27,7 @@ public class DayLengthCalculator {
     /**
      * Calculates the length of a given day. Uses the Calendar object to pass in
      * the target date. The hour, if not specified in the Calendar object, will default
-     * to 12.00 NOON. Reason being, we need to convert the dates between Julian & Gregorian
+     * to 12.00 NOON. We need to convert the dates between Julian & Gregorian
      * and hour of the day impacts the generated Julian Day.
      * Ref:
      * http://users.electromagnetic.net/bu/astro/sunrise-set.php
@@ -34,23 +37,23 @@ public class DayLengthCalculator {
      * @return - A DayLength object with with the Sunrise and Sunset for the given day.
      */
     public DayLength getLengthOfDay(Calendar cal, IGeoLocation location) {
-//        double latitudeNorth = location.getLatitude().getDegrees();
-//        double longitudeWest = location.getLatitude().getDegrees();
+        double latitudeNorth = location.getLatitude().getDegrees();
+        double longitudeWest = location.getLatitude().getDegrees();
 
-//        latitudeNorth = location.getLatitude().getOrientation() == GeoOrientation.NORTH ? latitudeNorth : latitudeNorth * -1; //for degrees to the south, inverse sign.
-//        longitudeWest = location.getLongitude().getOrientation() == GeoOrientation.WEST ? longitudeWest : longitudeWest * -1; //for degrees to the east, inverse sign.
+        latitudeNorth = location.getLatitude().getOrientation() == GeoOrientation.NORTH ? latitudeNorth : latitudeNorth * -1; //for degrees to the south, inverse sign.
+        longitudeWest = location.getLongitude().getOrientation() == GeoOrientation.WEST ? longitudeWest : longitudeWest * -1; //for degrees to the east, inverse sign.
 
         Calendar gregorianDate = makeDefensiveCopy(cal);
         double julianDay = Calculations.toJulianValue(gregorianDate);
-        long julianCycle = round((julianDay - JAN012000 - CYCLE_CONST) - (location.getLongitude().getDegrees() / 360));
-        double approxSolarNoon = JAN012000 + CYCLE_CONST + location.getLongitude().getDegrees() / 360 + julianCycle;
+        long julianCycle = round((julianDay - JAN012000 - CYCLE_CONST) - (longitudeWest / 360));
+        double approxSolarNoon = JAN012000 + CYCLE_CONST + longitudeWest / 360 + julianCycle;
         double meanSolarAnomaly = (357.5291 + 0.98560028 * (approxSolarNoon - JAN012000)) % 360;
         double equationOfCenter = (1.9148 * sin(meanSolarAnomaly)) + (0.0200 * sin(2 * meanSolarAnomaly)) + (0.0003 * sin(3 * meanSolarAnomaly));
         double longitudeOfSun = (meanSolarAnomaly + 102.9372 + equationOfCenter + 180) % 360;
         double julianSolarNoon = approxSolarNoon + (0.0053 * sin(meanSolarAnomaly)) - (0.0069 * sin(2 * longitudeOfSun));
         double sunDeclination = Math.asin(sin(longitudeOfSun) * sin(23.45));
-        double hourAngle = Math.acos((sin(-0.83) - sin(location.getLatitude().getDegrees()) * sin(sunDeclination)) / (cos(location.getLatitude().getDegrees()) * cos(sunDeclination)));
-        approxSolarNoon = JAN012000 + CYCLE_CONST + ((hourAngle + location.getLongitude().getDegrees()) / 360) + julianCycle;
+        double hourAngle = Math.acos((sin(-0.83) - sin(latitudeNorth) * sin(sunDeclination)) / (cos(latitudeNorth) * cos(sunDeclination)));
+        approxSolarNoon = JAN012000 + CYCLE_CONST + ((hourAngle + longitudeWest) / 360) + julianCycle;
         double julianSunSet = approxSolarNoon + (0.0053 * sin(meanSolarAnomaly)) - (0.0069 * sin(2 * longitudeOfSun));
         double julianRise = julianSolarNoon - (julianSunSet - julianSolarNoon);
 
